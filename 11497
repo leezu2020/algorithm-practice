@@ -1,0 +1,62 @@
+import java.util.*;
+
+public class Main {
+	
+	public static int Max(int a, int b) {
+		if(a>b)
+			return a;
+		else
+			return b;
+	}
+	
+	public static int Min(int a, int b) {
+		if(a>b)
+			return b;
+		else
+			return a;
+	}
+	
+	public static int get_min(int[] array) {
+		
+		int max=0;
+		
+		int[] temp = array;
+		Arrays.sort(temp);	// array 오름차순 정렬
+		
+		
+		for(int i=0; i<array.length-2; i++) {
+			max = Max(max, Math.abs(array[i] - array[i+2]));
+		}
+		max = Max(max, Math.abs(array[0]-array[1]));
+		max = Max(max, Math.abs(array[array.length-2]-array[array.length-1]));
+		
+		
+		return max;
+	}
+	
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int t = sc.nextInt();
+		int[] arr = new int[t];	// 최소난이도 저장 배열
+		
+		for(int i=0; i<t; i++) {
+			int n = sc.nextInt();
+			int[] temp = new int[n];
+			
+			for(int j=0; j<n; j++) {				
+				temp[j] = sc.nextInt();				
+			}
+			arr[i] = get_min(temp);
+		}
+		
+		for(int i=0; i<t; i++) {
+			System.out.println(arr[i]);
+		}
+		
+		
+		sc.close();
+	}
+	
+}
