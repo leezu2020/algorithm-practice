@@ -1,0 +1,46 @@
+import java.util.*;
+
+public class Main {
+		
+	public static long cost(long W, int[] price) {
+		
+		long coin=0;
+		
+		for(int i=0; i<price.length-1; i++) {
+			if(price[i]<price[i+1]) {
+				coin += W/price[i];
+				W %= price[i];
+				
+//				System.out.println("현금 : " +W+ "코인 : "+ coin);
+			}
+			else if(price[i]>price[i+1]) {
+				W += price[i]*coin;
+				coin = 0;
+			}
+		}
+		
+		W += price[price.length-1]*coin;
+		
+		return W;
+	}
+	
+	public static void main(String[] args) {
+		int n;
+		long W;
+		Scanner sc = new Scanner(System.in);
+		
+		n = sc.nextInt();
+		W = sc.nextInt();
+		int[] price = new int[n];
+		
+		for(int i=0; i<n; i++) {
+			price[i] = sc.nextInt();
+		}
+
+		System.out.println(cost(W, price));
+		
+		
+		sc.close();
+	}
+	
+}
