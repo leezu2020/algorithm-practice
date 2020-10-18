@@ -1,0 +1,47 @@
+import java.util.*;
+
+public class Main {
+	
+	public static int check(char[] Seat, int N) {
+		int max = 1;	// 맨 앞으로 +1 시작
+		int cnt = 0;
+		
+		
+		for(int i=0; i<N; i++) {
+			if(Seat[i] == 'L') {
+				cnt++;
+			}
+			else {
+				max++;
+			}
+		}
+		max += cnt/2;
+		
+		if(max>N)
+			return N;
+		
+		return max;
+	}
+	
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int N;
+		String seat;
+		
+		N = sc.nextInt();
+		char[] Seat = new char[N];
+
+		sc.nextLine();
+		seat = sc.nextLine();
+		
+		Seat = seat.toCharArray();
+		
+		System.out.println(check(Seat, N));		
+		
+		
+		sc.close();
+	}
+	
+}
