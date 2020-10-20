@@ -1,0 +1,44 @@
+import java.util.*;
+ 
+public class Main {
+	
+	public static int N = 100;
+	
+	public static int get_sn(int a) {
+		
+		
+		int result=0;
+		
+		result += a;
+		do {
+			result += a%10;
+			a /= 10;
+			//체크
+//			System.out.println(a);
+		}while(a!=0);
+			// a 1자리 -> a+(a%10)
+			// a 2자리 -> a+(a/10)+(a%10)
+			// a 3자리 -> a+(a/100)+(a/10)+(a%10)
+		
+		return result;
+	}
+	
+    public static void main(String[] args) {
+    	
+    	int temp;
+    	boolean[] check = new boolean[N];
+    	
+    	for(int i=1; i<=N; i++) {
+    		temp = get_sn(i);
+    		if(temp<=N) {
+    			check[temp-1] = true;
+    		}
+    	}
+    	
+    	
+		for(int i=0; i<N; i++) {
+			if(check[i]==false)
+				System.out.println(i+1);
+		}
+    }
+}
