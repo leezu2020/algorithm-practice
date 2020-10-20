@@ -1,0 +1,111 @@
+import java.util.*;
+ 
+import java.util.Scanner;
+ 
+public class Main {
+	
+	public static int[][] sort(int[][] arr,int cnt){
+		int[][] after_sort = new int[cnt][3];
+		
+		for(int i=0; i<cnt; i++) {
+			after_sort[i][0] = arr[i][0];
+			after_sort[i][1] = arr[i][1];
+			after_sort[i][2] = arr[i][2];
+		}
+		
+		Arrays.sort(after_sort, new Comparator<int[]>() {
+    		@Override
+    		public int compare(int[] t1, int[] t2) {
+    			if(t1[0] == t2[0])
+    				return t2[1] - t1[1];
+    			else
+    				return t1[0] - t2[0];
+    		}
+    	});
+		
+//		for(int i=0; i<cnt; i++)
+//			System.out.printf("%d %d %d\n", after_sort[i][0], after_sort[i][1], after_sort[i][2]);
+		
+		return after_sort;
+	}
+ 
+    public static void main(String[] args) {
+    	Scanner sc = new Scanner(System.in);
+        
+    	int N = sc.nextInt();
+    	
+    	int M = sc.nextInt();
+    	
+    	int cnt=0;
+    	int cnt_ir=0;
+    	int[][] bus = new int[M][3];
+    	int[][] bus_ir = new int[M][3];
+    	
+    	int temp_s, temp_e;
+    	
+    	int ir_max = -1;
+    	int ir_min = N+1;
+    	
+    	for(int i=0; i<M; i++) {
+    		temp_s = sc.nextInt();
+    		temp_e = sc.nextInt();
+    		if(temp_s<temp_e) {
+    			bus[cnt][0] = temp_s;
+    			bus[cnt][1] = temp_e;
+    			bus[cnt][2] = i+1;
+    			cnt++;
+    		}
+    		else {
+    			ir_max = Math.max(ir_max,  temp_e);
+    			ir_min = Math.min(ir_min,  temp_s);
+    			bus_ir[cnt_ir][0] = temp_s;
+    			bus_ir[cnt_ir][1] = temp_e;
+    			bus_ir[cnt_ir][2] = i+1;
+    			cnt_ir++;
+    		}
+    	}
+    	
+    	
+    	
+    	bus = sort(bus, cnt);
+    	bus_ir = sort(bus_ir, cnt_ir);
+    	
+//    	for(int i=0; i<cnt; i++)
+//    		System.out.printf("%d %d %d \n", bus[i][0], bus[i][1], bus[i][2]);
+    	
+    	String result ="";
+    	
+    	for(int i=0; i<M; i++) {
+    		result = result.concat(String.valueOf(i+1)+" ");
+    	}
+    	
+    	int min = -1;
+    	//a<b가 a<b에 포함
+    	for(int i=0; i<cnt; i++) {
+			if(min<bus[i][1]) {
+				min = bus[i][1];
+			}
+			else {
+				result = result.replace(String.valueOf(bus[i][2])+" ","");
+			}
+			if(bus[i][1]<=ir_max || bus[i][0]>=ir_min) {
+				result = result.replace(String.valueOf(bus[i][2])+" ","");
+			}
+			
+		}
+		
+		int min_ir = -1;
+		//a>b가 a>b에 포함
+		for(int i=0; i<cnt_ir; i++) {
+			if(min_ir<bus_ir[i][1]) {
+				min_ir = bus_ir[i][1];
+			}
+			else {
+				result = result.replace(String.valueOf(bus_ir[i][2])+" ","");
+			}
+		}
+    	
+		System.out.println(result);
+    	sc.close();
+    }
+}
