@@ -1,0 +1,30 @@
+import java.util.*;
+ 
+public class Main {
+	
+	
+    public static void main(String[] args) {
+    
+    	Scanner sc = new Scanner(System.in);
+    	
+    	long a,b,c;
+    	long result=0;
+    	long cnt=0;
+    	
+    	a = sc.nextLong();
+    	b = sc.nextLong();
+    	c = sc.nextLong();
+    	
+    	if(b>=c)
+    		result = -1;
+    	else {
+    		while(a+b*cnt>=c*cnt) {
+    			cnt++;
+    		}
+    		result = cnt;
+    	}
+    	
+    	System.out.println(result);
+    		
+    }
+}
