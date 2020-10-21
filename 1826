@@ -1,0 +1,80 @@
+import java.util.*;
+ 
+public class Main {
+	
+	public static int get_min(int[][] stn, int[] sg) {
+
+		int cnt = 0;
+		
+		int goal = sg[0];	// 목표지점 거리
+		int gas = sg[1];	// 현재 가진 양
+		
+		int index = 0;
+		int past = 0;		// 직전에 들렸던 주유소
+		int now = 0;		// 현재 위치
+		boolean[] temp = new boolean[stn.length];	// 안들린상태 f ____ 들린상태 t
+		
+		if(gas==goal) {
+			return 0;
+		}
+		else {
+			do {
+				if(gas+now>=stn[index][0] && !temp[index]) {
+					now = stn[index][0];
+					if(cnt==0) 
+						gas = gas + stn[index][1] - stn[index][0];
+					else
+						gas = gas + stn[index][1] - (stn[index][0] - stn[past][0]);
+					past = index;
+					//체크
+					System.out.println(stn[index][0] +"위치에서 "+stn[index][1]+"만큼 주유");
+					temp[index]=true;
+					index=0;
+					cnt++;
+				}
+				else {
+					index++;
+				}
+			}while(gas + now<goal && index<stn.length && gas>0);
+			
+			if(cnt==0 || gas+now<goal || gas<=0)
+				return -1;
+			else
+				return cnt; 
+		}
+	}
+	
+    public static void main(String[] args) {
+    
+    	Scanner sc = new Scanner(System.in);
+    	
+    	int N;	// 주유소 개수
+    	
+    	N = sc.nextInt();
+    	int[][] gasstn = new int[N][2];	// 주유소 위치, 양
+    	for(int i=0; i<N; i++) {
+    		gasstn[i][0] = sc.nextInt();
+    		gasstn[i][1] = sc.nextInt();
+    	}
+    	int[] sg = new int[2];	// 성경 거리, 연료양
+    	sg[0] = sc.nextInt();
+    	sg[1] = sc.nextInt();
+    	
+    	// 가스양에 따라 정렬
+    	Arrays.sort(gasstn, new Comparator<int[]>() {
+    		@Override
+    		public int compare(int[] t1, int[] t2) {
+    			if(t1[1] == t2[1])
+    				return t2[0] - t1[0];
+    			else
+    				return t2[1] - t1[1];
+    		}
+    	});
+    	
+
+    	
+    	System.out.println(get_min(gasstn,sg));
+    	
+    		
+    }
+}
