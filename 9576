@@ -1,0 +1,66 @@
+import java.util.*;
+ 
+public class Main {
+	
+	public static int get_max(int N, int[][] wb) {
+		int max=0;
+		
+		boolean[] distr = new boolean[N];			// 나눠준 책
+		
+		for(int i = 0; i<wb.length; i++) {
+			for(int s = wb[i][0]; s<=wb[i][1]; s++) {
+				if(s<=N && !distr[s-1]) {
+					distr[s-1] = true;
+					max++;
+					//체크
+//					System.out.println(s+"번째 책이 " + (i+1)+"번째 학생에게 나눠짐");
+					break;
+				}
+			}
+		}
+		
+		return max;
+	}
+
+    public static void main(String[] args) {
+    
+    	Scanner sc = new Scanner(System.in);
+    	
+    	int tc;	// 테스트 케이스의 수
+    	int N;	// 백준갖고있는 책수
+    	int M;	// 학부생 수
+    	int[][] wannabook;	// 학부생이 원하는 책 번호
+    	
+    	tc = sc.nextInt();
+    	int[] result = new int[tc];
+    	
+    	for(int i=0; i<tc; i++) {
+    		N = sc.nextInt();
+    		M = sc.nextInt();
+    		wannabook = new int[M][2];
+    		for(int j=0; j<M; j++) {
+    			wannabook[j][0] = sc.nextInt();
+    			wannabook[j][1] = sc.nextInt();
+    			
+    		}
+    			// 내림차순 정렬(두번째 숫자 기준->첫번째 숫자 기준)
+    		Arrays.sort(wannabook, new Comparator<int[]>() {
+    			@Override
+    			public int compare(int[] t1, int[] t2) {
+    				if (t1[1]==t2[1])
+    					return t1[0] - t2[0];
+    				else
+    					return t1[1] - t2[1];
+    			}
+    		});
+    			
+    		result[i] = get_max(N, wannabook);
+    			
+  
+    	}
+    	
+    	for(int i=0; i<tc; i++)
+    		System.out.println(result[i]);
+    		
+    }
+}
