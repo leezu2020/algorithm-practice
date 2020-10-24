@@ -1,0 +1,54 @@
+import java.util.*;
+ 
+public class Main {
+	
+	public static String check_x(int y, int x) {
+		String temp;
+		
+		if(String.valueOf(x).length()!=2) {
+			temp = String.valueOf(y) + "0" + String.valueOf(x);
+		}
+		else
+			temp = String.valueOf(y) + String.valueOf(x);
+		
+		return temp;
+	}
+	
+	public static String get_roomnumber(int h, int w, int n) {
+		String rn = "";
+		
+		int x,y;
+
+		if(n%h==0) {
+			y = h;
+			x = n/h;
+			rn = check_x(y,x);
+		}
+		else {
+			x = n/h + 1;
+			y = n%h;
+			rn = check_x(y,x);
+		}
+		
+		return rn;
+	}
+
+    public static void main(String[] args) {
+    
+    	Scanner sc = new Scanner(System.in);
+    	
+    	int T = sc.nextInt();
+    	String[] result = new String[T];
+    	
+    	for(int i=0; i<T; i++) {
+    		int H = sc.nextInt();	// 층수
+    		int W = sc.nextInt();	// 너비
+    		int N = sc.nextInt();	// 손님
+    		
+    		result[i] = get_roomnumber(H,W,N);
+    	}
+    	
+    	for(int i=0; i<T; i++)
+    		System.out.println(result[i]);
+    }
+}
