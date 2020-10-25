@@ -1,0 +1,147 @@
+import java.io.IOException;
+import java.util.*;
+
+class pos{
+	int x, y;
+	
+	pos(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+}
+
+public class Main {
+	
+	
+	public static int[] dx = {0, 0, 1, -1};
+	public static int[] dy = {-1, 1, 0, 0};
+	public static int[][] feed = new int[20][20];
+	public static int[][] check;
+	public static int[] sp = new int[2];
+	public static int shark_size = 2;
+	public static int md, mx, my;
+	
+	public static void bfs(int x, int y) {
+		Queue<pos> q = new LinkedList<pos>();
+		check[x][y] = 0;
+		q.add(new pos(x, y));
+		
+		
+		
+		
+		while(!q.isEmpty()) {
+			pos now = q.poll();
+			
+			for(int i=0; i<4; i++) {
+				int fx = now.x + dx[i];
+				int fy = now.y + dy[i];
+				
+				// 맵 범위 넘어선 경우
+				if(fx>=check.length || fx<0 || fy>=check.length || fy<0)
+					continue;
+				// 상어보다 물고기가 큰 경우, 이미 지난 좌표일 경우
+				if(feed[fx][fy]>shark_size || check[fx][fy]!=-1)
+					continue;
+
+				// 한칸 이동해서 +1
+				check[fx][fy] = check[now.x][now.y] + 1;
+				//체크
+	//			System.out.println(fx+", "+fy+"에서 +1해서" +check[fx][fy]);
+				
+				// 상어가 물고기 먹을경우
+				if(feed[fx][fy]<shark_size && feed[fx][fy]!=0) {
+
+					if(check[fx][fy] < md) {
+						mx = fx;
+						my = fy;
+						md = check[fx][fy];
+					}
+					else if(check[fx][fy] == md) {
+						if(mx == fx) {
+							if(my>fy) {
+								mx = fx;
+								my = fy;
+							}
+						}else if(mx>fx) {
+							mx = fx;
+							my = fy;
+						}
+					}
+				}
+				
+				q.add(new pos(fx, fy));
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws IOException{
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int size = sc.nextInt();
+		// bfs 체크용
+		check = new int[size][size];
+		
+		for(int i=0; i<size; i++) {
+			for(int j=0; j<size; j++) {
+				feed[i][j] = sc.nextInt();
+				if(feed[i][j] == 9) {
+					sp[0] = i;
+					sp[1] = j;
+					feed[i][j] = 0;
+				}
+			}
+		}		
+		
+		
+		/*
+		 * //체크 for(int i=0; i<size; i++) { for(int j=0; j<size; j++)
+		 * System.out.print(feed[i][j]+" "); System.out.println(); }
+		 * System.out.println(sp[0] +" "+sp[1]+"이 상어위치");
+		 */
+		
+			
+		
+		int cnt = 0;
+		int time = 0;
+		
+		while(true) {
+			
+			// bfs 시작할때마다 초기화
+			for(int i=0; i<check.length; i++) {
+				for(int j=0; j<check.length; j++)
+					check[i][j] = -1;
+			}
+			md = check.length*check.length + 1;
+			mx = check.length;
+			my = check.length;
+			
+			
+			//체크
+//			System.out.println(sp[0]+", "+sp[1]+"로 bfs시작");
+			bfs(sp[0], sp[1]);
+			
+			if(mx != check.length && my != check.length) {
+				//체크
+//				System.out.println(mx +", "+my+"에서 상어가 물고기 먹음");
+				
+				time += check[mx][my];
+				sp[0] = mx;
+				sp[1] = my;
+				feed[mx][my] = 0;
+				cnt++;
+				if(cnt == shark_size) {
+					cnt = 0;
+					shark_size++;
+				}
+			}
+			else
+				break;
+		}
+		
+		System.out.println(time);
+		sc.close();
+	}
+	
+	
+}
