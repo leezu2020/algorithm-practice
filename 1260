@@ -1,0 +1,77 @@
+import java.util.*;
+ 
+
+public class Main {
+	
+//	public static ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
+	public static boolean[] visited;
+	public static int[][] graph;
+	public static int N,V,M;
+	
+    public static void main(String[] args) {
+    
+    	Scanner sc = new Scanner(System.in);
+    	
+    	N = sc.nextInt();	//정점의 개수
+    	M = sc.nextInt();	//간선의 개수
+    	V = sc.nextInt();	//시작번호
+
+    	graph = new int[N+1][N+1];
+
+    	
+    	for(int i=0; i<M; i++) {
+    		int x = sc.nextInt();
+    		int y = sc.nextInt();
+    		graph[x][y] = graph[y][x] = 1;
+    	}
+    	
+    	visited = new boolean[N+1];
+    	dfs(V);
+    	System.out.println();
+    	
+    	visited = new boolean[N+1];
+    	bfs();
+    	
+    	sc.close();
+    }
+    
+    public static void dfs(int v){
+    	
+    	visited[v] = true;
+    	
+    	System.out.print(v + " ");
+    	
+    	for(int i=1; i<=N; i++) {
+    		if(graph[v][i] == 1 && visited[i]!=true) {
+    			visited[i] = true;
+    			dfs(i);
+    		}
+    	}
+    }
+    
+    public static void bfs() {
+    	Queue <Integer> q = new LinkedList<Integer>();
+    	q.add(V);
+    	
+    	
+    	while(!q.isEmpty()) {
+    		int temp = q.poll();
+//    		System.out.println(temp+"가 q에서 나옴");
+    		visited[temp] = true;
+    		System.out.print(temp + " ");
+    		
+    		for(int i=1; i<=N; i++) {
+    			if(graph[temp][i] == 1 && visited[i] != true) {
+    				visited[i] = true;
+    				q.add(i);
+    				//체크
+//    				System.out.println(i+"가 q에 들어감");
+    			}
+    		}
+    		
+    	}
+    	
+    	
+    }
+    
+}
