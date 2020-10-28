@@ -1,0 +1,118 @@
+import java.util.*;
+ 
+class pos{
+	int x,y;
+	
+	pos(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+}
+
+public class Main {
+	
+	public static int M,N,K;
+	public static int[][] square;
+	public static int[][] paper;
+	public static int[][] checked;
+	public static int[] dx = {-1,1,0,0};
+	public static int[] dy = {0,0,-1,1};
+	public static int cnt=0;
+	
+    public static void main(String[] args) {
+    
+    	Scanner sc = new Scanner(System.in);
+    	
+    	M = sc.nextInt();
+    	N = sc.nextInt();
+    	K = sc.nextInt();
+    	
+    	paper = new int[M][N];
+    	checked = new int[M][N];
+    	square = new int[K][4];
+    	
+    	for(int i=0; i<K; i++) {
+    		square[i][0] = sc.nextInt();
+    		square[i][1] = sc.nextInt();
+    		square[i][2] = sc.nextInt();
+    		square[i][3] = sc.nextInt();
+    	}
+    	
+    	
+    	int[] temp = new int[M*N];
+    	
+    	for(int i=0; i<M; i++) {
+    		for(int j=0; j<N; j++) {
+    			if(!rec(i,j) && checked[i][j]==0) {
+    				//체크
+//    				System.out.println("bfs 시작" + i+" "+ j);
+    				temp[cnt] = bfs(i,j);
+    				cnt++;
+    				//체크
+ //   				System.out.println("bfs 끝" + i+" "+ j);
+    			}
+    		}
+    	}
+    	
+    	int[] area = new int[cnt];
+    	for(int i=0; i<cnt; i++)
+    		area[i] = temp[i];
+    	
+    	Arrays.sort(area);
+    	
+    	System.out.println(cnt);
+    	for(int i=0; i<area.length; i++)
+    		System.out.print(area[i]+" ");
+    	
+    	sc.close();
+    }
+    
+    // 직사각형에 포함되어 있는지 -> true
+    public static boolean rec(int x,int y) {
+    	boolean result = false;
+    	
+    	for(int i=0; i<K; i++) {
+    		if(y>=square[i][0] && y<square[i][2] && x>=square[i][1] && x<square[i][3]) {
+    			result = true;
+    			break;
+    		}
+    	}
+    	
+    	return result;
+    }
+    
+    public static int bfs(int x, int y) {
+    	Queue <pos> q = new LinkedList<pos>();
+    	checked[x][y] = 1;
+    	q.add(new pos(x,y));
+    	
+    	int ax,ay;
+    	int sum = 1;
+    	
+    	while(!q.isEmpty()) {
+    		pos now = q.poll();
+    		
+    		for(int i=0; i<4; i++) {
+    			ax = now.x + dx[i];
+    			ay = now.y + dy[i];
+    			
+    			if(!rec(ax,ay)) {
+    				if(ax>=0 && ay>=0 && ax<M && ay<N) {
+    					if(checked[ax][ay] == 0) {
+    						
+    						//체크
+//    						System.out.println(ax +" "+ay+"에서 카운팅");
+	    					
+		    				checked[ax][ay] = 1;
+		    				q.add(new pos(ax,ay));
+		    				sum++;
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+    	return sum;
+    }
+    
+}
