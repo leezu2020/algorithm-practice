@@ -1,0 +1,82 @@
+import java.util.*;
+ 
+class pair{
+	int x,d;
+	
+	public pair(int x, int depth) {
+		this.x = x;
+		this.d = depth;
+	}
+}
+
+public class Main {
+	
+	public static int[][] rel;
+	public static int[] checked;
+	public static int N,M;
+	public static int min=Integer.MAX_VALUE;
+	public static int mp;
+	
+    public static void main(String[] args) {
+    
+    	Scanner sc = new Scanner(System.in);
+    	
+    	N = sc.nextInt();	// 유저의 수
+    	M = sc.nextInt();	// 관계의 수
+    	
+    	rel = new int[N+1][N+1];
+    	checked = new int[N+1];
+    	
+    	for(int i=0; i<M; i++) {
+    		int x = sc.nextInt();
+    		int y = sc.nextInt();
+    		rel[x][y] = rel[y][x] = 1;
+    	}
+    	
+    	//체크
+    	for(int i=1; i<N+1; i++) {
+    		if(min>findkb(i)) {
+    			min = findkb(i);
+    			mp = i;
+    		}
+    	}
+    	System.out.println(mp);
+    	
+    	sc.close();
+    }
+		
+    public static int findkb(int a) {
+    	Queue <pair> q = new LinkedList<pair>(); 
+    	int sum = 0;
+    	
+    	for(int i=1;i<N+1; i++)
+    		checked[i]=0;
+    	checked[a] = 1;
+    	q.add(new pair(a,1));
+    	
+    	while(!q.isEmpty()) {
+    		pair n = q.poll();
+    		
+    		
+    		for(int i=1; i<N+1; i++) {
+    			if(rel[n.x][i]==1 && checked[i]!=1) {
+    				checked[i] = 1;
+    				q.add(new pair(i,n.d+1));
+    				sum += n.d;
+    				//체크
+//    				System.out.println(n.x+"과"+i+"확인" + n.d);
+    			}
+    		}
+    	}
+    	
+    	
+    	return sum; 
+    }
+    
+}
+
+    
+    
+    	
+    
+  
