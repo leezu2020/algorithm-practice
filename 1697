@@ -1,0 +1,63 @@
+import java.util.*;
+
+class pos{
+	int x, time;
+	
+	public pos(int x, int time) {
+		this.x = x;
+		this.time = time;
+	}
+}
+
+public class Main {
+	
+	public static int N,K;
+	public static int[] walking = {-1,1,0};
+	public static int[] checked = new int[100001];
+	public static int[] teleporting = {0,0,1};
+    public static void main(String[] args) {
+    
+    	Scanner sc = new Scanner(System.in);
+    	N = sc.nextInt();
+    	K = sc.nextInt();
+    	
+    	System.out.println(dfs());
+    	
+    	sc.close();
+    }
+	
+    public static int dfs() {
+    	int time=0;
+    	
+    	Queue <pos> q = new LinkedList<pos>();
+    	q.add(new pos(N,0));
+    	checked[N]=1;
+    	
+    	while(!q.isEmpty()) {
+    		pos now = q.poll();
+    		
+    		if(now.x==K) {
+    			time = now.time;
+    		}
+    		
+    		for(int i=0; i<3; i++) {
+    			int ax = now.x + walking[i] + teleporting[i]*now.x;
+    			
+    			if(ax>=0 && ax<=100000 && checked[ax]==0) {
+    				checked[ax]=1;
+    				q.add(new pos(ax,now.time+1));
+    			}
+    		}
+    	}
+    	
+    	return time;
+    }
+    
+    
+}
+
+    
+    
+    	
+    
+  
