@@ -1,0 +1,160 @@
+import java.util.*;
+
+// 클래스 안에서 abcd 값을 계산해서 반환하는 함수 만들기
+
+class number{
+	int a,b,c,d;
+	String s;
+	
+	public number(int i, String s) {
+		if(i<10) {
+			this.a=0; this.b=0;	this.c=0;
+			this.d=i;
+		}
+		else if(i>=10 && i<100) {
+			this.a=0; this.b=0;
+			this.c=i/10;
+			this.d=i%10;
+		}
+		else if(i>=100 && i<1000) {
+			this.a=0;
+			this.b=i/100;
+			this.c=(i%100)/10;
+			this.d=i%10;			
+		}
+		else {
+			this.a=i/1000;
+			this.b=(i%1000)/100;
+			this.c=(i%100)/10;
+			this.d=i%10;
+		}
+		this.s = s;
+	}
+}
+
+public class Main {
+	
+	public static String[] ans;
+	public static void main(String[] args){
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int T=sc.nextInt();
+		
+		ans = new String[T];
+		for(int i=0; i<T; i++) {
+			int a = sc.nextInt();
+			int b = sc.nextInt();
+			ans[i] = dfs(new number(a,""), new number(b,""));
+		}
+		
+		for(int i=0; i<T; i++)
+			System.out.println(ans[i]);
+		
+		sc.close();
+	}
+	
+	public static boolean compare(number A, number B) {
+		
+		if(A.a==B.a && A.b==B.b && A.c==B.c && A.d==B.d)
+			return true;
+		else
+			return false;
+		
+	}
+	
+	public static String dfs(number A, number B) {
+		String result="";
+		
+		int[] checked = new int[10000];
+		
+		Queue <number> q = new LinkedList<number>();
+		
+		q.add(A);
+		checked[A.a*1000+A.b*100+A.c*10+A.d] = 1;
+		
+		while(!q.isEmpty()) {
+			number n = q.poll();
+			
+			if(compare(n,B)) {
+				result = n.s;
+				break;
+			}
+			
+			for(int i=0; i<4; i++) {
+				if(i==0) {
+					if(checked[D(n)]==0) {
+						q.add(new number(D(n),n.s+"D"));
+						checked[D(n)]=1;
+					}
+				}
+				if(i==1) {
+					if(checked[S(n)]==0) {
+						q.add(new number(S(n),n.s+"S"));
+						checked[S(n)]=1;
+					}
+				}
+				if(i==2) {
+					if(checked[L(n)]==0) {
+						q.add(new number(L(n),n.s+"L"));
+						checked[L(n)]=1;
+					}
+				}
+				if(i==3) {
+					if(checked[R(n)]==0) {
+						q.add(new number(R(n),n.s+"R"));
+						checked[R(n)]=1;
+					}
+				}
+					
+			}
+		}
+		
+		return result;
+	}
+	
+	// 명령어 D
+	public static int D(number A){
+		int n;
+		
+		int temp = A.a*1000 + A.b*100 + A.c*10 + A.d;
+		
+		if(temp*2>9999)
+			n = temp*2%10000;
+		else
+			n = temp*2;
+		
+		return n;
+	}
+	
+	// 명령어 S
+	public static int S(number A) {
+		int n;
+		
+		int temp = A.a*1000 + A.b*100 + A.c*10 + A.d;
+		
+		if(temp == 0)
+			n = 9999;
+		else
+			n = temp-1;
+		
+		return n;
+	}
+	
+	// 명령어 L
+	public static int L(number A) {
+		int a,b,c,d;
+		a=A.a;	b=A.b;	c=A.c;	d=A.d;
+	
+		return b*1000 + c*100 + d*10 + a;
+	}
+	
+	// 명령어 R
+	public static int R(number A) {
+		
+		int a,b,c,d;
+		a=A.a;	b=A.b;	c=A.c;	d=A.d;
+		
+		return d*1000 + a*100 + b*10 + c;
+	}
+}
