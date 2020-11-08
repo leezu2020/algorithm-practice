@@ -1,0 +1,57 @@
+import java.util.*;
+
+class pos{
+	int x,d;
+	
+	public pos(int x, int d){
+		this.x = x;
+		this.d = d;
+	}
+	
+}
+
+public class Main {
+	
+	public static int cnt;
+	public static int[] checked;
+	
+	public static void get_min(int x) {
+		Queue <pos> q = new LinkedList<pos>();
+		
+		q.add(new pos(x,0));
+		checked[x] = 1;
+		while(!q.isEmpty()) {
+			
+			pos n = q.poll();
+			
+			if(n.x == 1) {
+				cnt = n.d;
+				break;
+			}
+			
+			
+			if(n.x%3 == 0 && checked[n.x/3] == 0) {
+				q.add(new pos(n.x/3,n.d+1));
+				checked[n.x/3] = 1;
+			}
+			if(n.x%2 == 0 && checked[n.x/2] == 0) {
+				q.add(new pos(n.x/2,n.d+1));
+				checked[n.x/2] = 1;
+			}
+			q.add(new pos(n.x-1,n.d+1));
+			checked[n.x-1] = 1;
+		}
+	}
+	
+	public static void main(String[] args){
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int x = sc.nextInt();
+		checked = new int[x+1];
+		
+		get_min(x);
+		System.out.println(cnt);
+		
+	}
+}
