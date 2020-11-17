@@ -1,0 +1,22 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+    	
+        String[] ref = {"c=", "c-", "dz=", "d-", "lj", "nj", "s=", "z="};
+        
+        String line = sc.next();
+        
+        for(int i=0; i<ref.length; i++) {
+        	if(line.contains(ref[i])) {
+        		line = line.replaceAll(ref[i], " ");
+        	}
+        }
+        System.out.print(line.length());
+        
+        sc.close();
+    }
+		
+}
