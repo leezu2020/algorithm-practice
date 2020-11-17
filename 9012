@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stack<String> s;
+    	int cnt;
+    	boolean check;
+        
+        int T = sc.nextInt();
+        String temp;
+        for(int i=0; i<T; i++) {
+        	temp = sc.next();
+        	
+        	//초기화
+        	s = new Stack<>();
+        	check = true;
+        	cnt = 0;
+        	
+        	for(int j=0; j<temp.length(); j++)
+        		s.push(String.valueOf(temp.charAt(j)));
+        	
+        	while(!s.isEmpty()) {
+        		
+        		if(s.pop().equals(")")) {
+        			cnt++;
+        		}
+        		else {
+        			cnt--;
+        		}
+        		
+        		if(cnt<0) {
+        			check = false;
+        			break;
+        		}
+        	}
+        	if(cnt>0)
+        		check = false;
+        	
+        	if(check)
+        		System.out.println("YES");
+        	else
+        		System.out.println("NO");
+        }
+        
+        sc.close();
+    }
+		
+}
