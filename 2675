@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+    	
+        int T = sc.nextInt();
+        int R;
+        String S;
+        for(int i=0; i<T; i++) {
+        	R = sc.nextInt();
+        	S = sc.next();
+        	repeat(R,S);
+        }
+        
+        
+        sc.close();
+    }
+    
+    public static void repeat(int r, String s) {
+    	char[] before = s.toCharArray();
+    	
+    	for(int i=0; i<s.length(); i++) {
+    		for(int j=0; j<r; j++) {
+    			System.out.print(before[i]);
+    		}
+    	}
+    	System.out.println();
+    }
+		
+}
