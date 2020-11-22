@@ -1,0 +1,55 @@
+import java.util.*;
+
+public class Main {
+
+	public static int N, K, W, X, Y;
+	public static int[] D;
+	public static List<List<Integer>> graph;
+	public static int[] time;
+	public static boolean[] checked;
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		int T = sc.nextInt();
+
+		for (int t = 0; t < T; t++) {
+			N = sc.nextInt();
+			K = sc.nextInt();
+			graph = new ArrayList<List<Integer>>();
+
+			// 초기화
+			for (int n = 0; n <= N; n++)
+				graph.add(new ArrayList<Integer>());
+			time = new int[N + 1];
+			D = new int[N + 1];
+			checked = new boolean[N + 1];
+
+			for (int n = 1; n <= N; n++)
+				D[n] = sc.nextInt();
+			for (int k = 0; k < K; k++) {
+				X = sc.nextInt();
+				Y = sc.nextInt();
+				graph.get(Y).add(X);
+			}
+			W = sc.nextInt();
+			System.out.println(get_time(W));
+		}
+	}
+
+	public static int get_time(int w) {
+		if (!checked[w]) {
+			checked[w] = true;
+			if (graph.get(w).isEmpty()) {
+				time[w] = D[w];
+				return D[w];
+			} else {
+				for (Integer i : graph.get(w)) {
+					time[w] = Math.max(time[w], get_time(i) + D[w]);
+				}
+			}
+		}
+
+		return time[w];
+	}
+}
