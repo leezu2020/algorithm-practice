@@ -1,0 +1,51 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+class pair {
+	int x, i;
+
+	public pair(int x, int i) {
+		this.x = x;
+		this.i = i;
+	}
+}
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		int N = sc.nextInt();
+		int[] arr = new int[N + 1];
+		long[] sum = new long[N];
+		for (int n = 0; n < N; n++) {
+			arr[n] = sc.nextInt();
+			if (n == 0)
+				sum[0] = arr[n];
+			else
+				sum[n] = sum[n - 1] + arr[n];
+		}
+    //마지막까지 비교위해 N번째 추가
+		arr[N] = 0;
+		System.out.println(get_score(arr, sum));
+	}
+
+	public static long get_score(int[] arr, long[] sum) {
+		Stack<pair> s = new Stack<>();
+		long result = 0;
+		pair temp;
+
+		for (int i = 0; i < arr.length; i++) {
+			while (!s.isEmpty() && s.peek().x >= arr[i]) {
+				temp = s.pop();
+				if (s.isEmpty()) {
+					result = Math.max(result, sum[i - 1] * temp.x);
+				} else {
+					result = Math.max(result, (sum[i - 1] - sum[s.peek().i]) * temp.x);
+				}
+			}
+			s.push(new pair(arr[i], i));
+		}
+		return result;
+	}
+}
