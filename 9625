@@ -1,0 +1,21 @@
+import java.util.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		int k = sc.nextInt();
+
+		get_cnt(1, 0, k, 0);
+
+	}
+
+	public static void get_cnt(int a, int b, int k, int d) {
+		if (d == k) {
+			System.out.println(a + " " + b);
+		} else {
+			get_cnt(b, a + b, k, d + 1);
+		}
+	}
+}
