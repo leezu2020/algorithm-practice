@@ -1,0 +1,30 @@
+import java.util.*;
+
+public class Main {
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int max=Integer.MIN_VALUE;
+		int N = sc.nextInt(); int M = sc.nextInt();
+		int[] card = new int[N];
+		for(int i=0; i<N; i++)
+			card[i] = sc.nextInt();
+		
+		Arrays.sort(card);
+		for(int a=0; a<N; a++) {
+			for(int b=a + 1; b<N; b++) {
+				for(int c=b + 1; c<N; c++) {
+					if(a!=b && b!=c && a!=c) {
+						if(card[a]+card[b]+card[c] <= M) {
+							max = Math.max(max, card[a]+card[b]+card[c]);
+//							System.out.println(card[a] +" "+card[b]+" "+card[c]);
+						}
+					}
+				}
+			}
+		}
+		
+		System.out.println(max);
+	}
+
+}
