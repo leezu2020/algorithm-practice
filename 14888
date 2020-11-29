@@ -1,0 +1,64 @@
+import java.util.*;
+
+public class Main {
+	public static int[] num;
+	public static int min = Integer.MAX_VALUE;
+	public static int max = Integer.MIN_VALUE;
+	// 0 : + 1: - 2: x 3: /
+	public static int[] oper = new int[4];
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		num = new int[N];
+		for (int i = 0; i < N; i++)
+			num[i] = sc.nextInt();
+		for (int i = 0; i < 4; i++)
+			oper[i] = sc.nextInt();
+
+		get_result();
+		System.out.println(max);
+		System.out.println(min);
+	}
+
+	public static void get_result() {
+		Queue<op> q = new LinkedList<>();
+		q.add(new op(oper[0], oper[1], oper[2], oper[3], num[0], 1));
+
+		while (!q.isEmpty()) {
+			op now = q.poll();
+
+			if (now.depth == num.length) {
+				min = Math.min(min, now.val);
+				max = Math.max(max, now.val);
+			}
+			if (now.a > 0) {
+				q.add(new op(now.a - 1, now.b, now.c, now.d, now.val + num[now.depth], now.depth + 1));
+			}
+			if (now.b > 0) {
+				q.add(new op(now.a, now.b - 1, now.c, now.d, now.val - num[now.depth], now.depth + 1));
+			}
+			if (now.c > 0) {
+				q.add(new op(now.a, now.b, now.c - 1, now.d, now.val * num[now.depth], now.depth + 1));
+			}
+			if (now.d > 0) {
+				q.add(new op(now.a, now.b, now.c, now.d - 1, now.val / num[now.depth], now.depth + 1));
+			}
+		}
+	}
+
+
+}
+
+class op {
+	int a, b, c, d, val, depth;
+
+	public op(int a, int b, int c, int d, int val, int depth) {
+		this.a = a;
+		this.b = b;
+		this.c = c;
+		this.d = d;
+		this.val = val;
+		this.depth = depth;
+	}
+}
