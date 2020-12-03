@@ -1,0 +1,43 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	public static int cnt = 0;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int S = Integer.parseInt(st.nextToken());
+		int sum = 0;
+		int[] seq = new int[N];
+		st = new StringTokenizer(br.readLine());
+		for (int i = 0; i < N; i++) {
+			seq[i] = Integer.parseInt(st.nextToken());
+		}
+		get_cnt(seq,0,S,sum);
+		if(S==0)
+			cnt--;
+		bw.write(String.valueOf(cnt));
+		bw.flush();
+		bw.close();
+	}
+	public static void get_cnt(int[] seq, int n, int S, int sum) {
+		if(n==seq.length) {
+			if(sum==S)
+				cnt++;
+			return;
+		}
+		
+		get_cnt(seq, n+1, S, sum+seq[n]);
+		get_cnt(seq, n+1, S, sum);
+	}
+}
