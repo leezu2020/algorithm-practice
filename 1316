@@ -1,0 +1,38 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	public static int[] word;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		int result = 0;
+		String st;
+		int N = Integer.parseInt(br.readLine());
+		for (int i = 0; i < N; i++) {
+			word = new int[26];
+			st = br.readLine();
+			result += check_word(st);
+		}
+		System.out.println(result);
+	}
+
+	public static int check_word(String st) {
+		int index = -1;
+		for (int i = 0; i < st.length(); i++) {
+			if (word[st.charAt(i) - 'a'] == 0 || index == st.charAt(i) - 'a') {
+				index = st.charAt(i) - 'a';
+				word[st.charAt(i) - 'a']++;
+			} else
+				return 0;
+		}
+		return 1;
+	}
+}
