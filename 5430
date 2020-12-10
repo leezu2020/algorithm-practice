@@ -1,0 +1,87 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Stack;
+
+public class Main {
+	public static Deque<Integer> q;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+//		StringBuilder sb = new StringBuilder();
+
+		int T = Integer.parseInt(br.readLine());
+		int n, arr_n, arr_f;
+		String st_n, st_f;
+		String[] arr;
+		// error 체크
+		boolean check, reverse;
+		for (int i = 0; i < T; i++) {
+			check = false;
+			reverse = false;
+			st_f = br.readLine();
+			n = Integer.parseInt(br.readLine());
+			st_n = br.readLine();
+
+			st_n = st_n.substring(1, st_n.length() - 1);
+			arr = st_n.split(",");
+			// 배열처리
+			q = new LinkedList<>();
+			for (int j = 0; j < arr.length; j++) {
+				if(!arr[j].isEmpty())
+					q.add(Integer.parseInt(arr[j]));
+			}
+			
+			arr_f = st_f.length();
+			// 함수처리
+			for (int f = 0; f < arr_f; f++) {
+				switch (st_f.charAt(f)) {
+				case 'R':
+					reverse = !reverse;
+					break;
+				case 'D':
+					if (q.isEmpty()) {
+						check = true;
+						break;
+					} else if(reverse){
+						q.pollLast();
+						break;
+					} else {
+						q.pollFirst();
+						break;
+					}
+				}
+			}
+			// 출력처리
+			/*
+			 * if (!q.isEmpty()) { bw.write("["); for (int j = 0; j < q.size() - 1; j++) {
+			 * bw.write(q.poll() + ","); } bw.write(q.poll() + "]\n"); }
+			 */
+			if (!check) {
+				bw.write("[");
+				if(!reverse){
+					while(q.size()>1)
+						bw.write(q.pollFirst()+",");
+				}
+				else {
+					while(q.size()>1)
+						bw.write(q.pollLast()+",");
+				}
+				if(q.size()!=0) {
+					bw.write(q.poll()+"");
+				}
+				bw.write("]\n");
+			}
+			else
+				bw.write("error\n");
+		}
+
+		bw.flush();
+		bw.close();
+	}
+}
