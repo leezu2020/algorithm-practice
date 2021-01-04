@@ -1,0 +1,50 @@
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+
+		int n = sc.nextInt();
+		int[] a = new int[n];
+		for(int i=0; i<n; i++) {
+			a[i] = sc.nextInt();
+		}
+        //이진 탐색을 위한 정렬
+		Arrays.sort(a);
+		int m = sc.nextInt();
+		for(int i=0; i<m; i++) {
+			int temp = sc.nextInt();
+			System.out.println(check(a, temp));
+		}
+		
+	}
+	// 이진 탐색
+	public static int check(int[] a, int m) {
+		
+		int left = 0;
+		int right = a.length - 1;
+		
+		while(left <= right) {
+			int mid = (left + right) / 2;
+			
+            // 수를 찾으면 1 반환
+			if(m == a[mid]) {
+				return 1;
+			}
+			
+            // 중간값보다 클 경우, left 이동
+			if(m > a[mid]) {
+				left = mid + 1;
+			}
+            // 중간값보다 작을 경우, right 이동
+			else {
+				right = mid - 1;
+			}
+		}
+		// 수를 찾지 못했으면 0 반환
+		return 0;
+	}
+}
