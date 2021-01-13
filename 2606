@@ -1,0 +1,48 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main {
+	public static int[] checked;
+	public static int[][] rel;
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int com = sc.nextInt();
+		checked = new int[com + 1];
+		rel = new int[com + 1][com + 1];
+		int n = sc.nextInt();
+		
+		for(int i=0; i<n; i++) {
+			int x = sc.nextInt();
+			int y = sc.nextInt();
+			rel[x][y] = 1;
+			rel[y][x] = 1;
+		}
+		
+		System.out.println(bfs());
+	}
+	
+	public static int bfs() {
+		int result = 0;
+		
+		Queue<Integer> q = new LinkedList<>();
+		q.add(1);
+		checked[1] = 1;
+		
+		while(!q.isEmpty()) {
+			int now = q.poll();
+			
+			for(int i=2; i<checked.length; i++) {
+				if(rel[now][i] == 1 && checked[i] != 1) {
+					checked[i] = 1;
+					result++;
+					q.add(i);
+				}
+			}
+		}
+		
+		return result;
+	}
+}
