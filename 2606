@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 	public static int[] checked;
 	public static int[][] rel;
-	
+	public static int cnt = 0;	// dfs용
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		
@@ -22,6 +22,10 @@ public class Main {
 		}
 		
 		System.out.println(bfs());
+		
+		//dfs
+		//dfs(1);
+		//System.out.println(cnt);
 	}
 	
 	public static int bfs() {
@@ -45,4 +49,16 @@ public class Main {
 		
 		return result;
 	}
+	
+	public static void dfs(int a) {
+		checked[a] = 1;
+
+		for (int i = 1; i < checked.length; i++) {
+			if (rel[a][i] == 1 && checked[i] != 1) {
+				cnt++;
+				dfs(i);
+			}
+		}
+	}
+	
 }
