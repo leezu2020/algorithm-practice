@@ -1,0 +1,83 @@
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+class pos{
+	int x, y;
+	
+	pos(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+}
+
+public class Main {
+	public static int[] dx = {0,0,-1,1};
+	public static int[] dy = {1,-1,0,0};
+	public static boolean[][] checked;
+	public static int[][] arr;
+	public static int[] apart = new int[25 * 25];
+	public static int apartNum = 0;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int n = sc.nextInt();
+		
+		arr = new int[n][n];
+		checked = new boolean[n][n];
+		
+		for(int i=0; i<n; i++) {
+			String temp = sc.next();
+			for(int j=0; j<n; j++) {
+				arr[i][j] = temp.charAt(j) - '0';
+			}
+		}
+		
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<n; j++) {
+				if(arr[i][j] == 1 && !checked[i][j]) {
+					apartNum++;
+					apart[apartNum - 1]++;
+					checked[i][j] = true;
+					pos p = new pos(i,j);
+					bfs(p);
+				}
+			}
+		}
+		
+		Arrays.sort(apart);
+		System.out.println(apartNum);
+		for(int i = 25 * 25 - apartNum; i < 25 * 25; i++) {
+			System.out.println(apart[i]);
+		}
+	}
+	
+	public static void bfs(pos p) {
+		Queue<pos> q = new LinkedList<>();
+		
+		q.add(p);
+		
+		while(!q.isEmpty()) {
+			pos now = q.poll();
+			int x = now.x;
+			int y = now.y;
+			
+			for(int i=0; i<4; i++) {
+				int ax = x + dx[i];
+				int ay = y + dy[i];
+				
+				if(ax < 0 || ay < 0 || ax >= arr[0].length || ay >= arr[0].length)
+					continue;
+				
+				if(arr[ax][ay] == 1 && !checked[ax][ay]) {
+					apart[apartNum - 1]++;
+					checked[ax][ay] = true;
+					q.add(new pos(ax,ay));
+				}
+			}
+		}
+	}
+	
+}
