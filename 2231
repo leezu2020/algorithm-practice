@@ -1,0 +1,28 @@
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+	
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int result = Integer.MAX_VALUE;
+		
+		for(int i=60; i>=0; i--) {
+			int temp = n - i;
+			int sum = n - i;
+			while(temp != 0) {
+				sum += temp % 10;
+				temp /= 10;
+			}
+			if(sum == n) {
+				result = Math.min(result, n - i);
+			}
+		}
+		if(result == Integer.MAX_VALUE)
+			System.out.print(0);
+		else
+			System.out.println(result);
+	}
+}
