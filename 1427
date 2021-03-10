@@ -1,0 +1,31 @@
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) throws Exception {
+		Scanner sc = new Scanner(System.in);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		int n = sc.nextInt();
+		// 0-9까지 카운트할 배열
+		int[] arr = new int[10];
+		
+		while( (n / 10) > 0) {
+			arr[ n % 10 ]++;
+			n /= 10;
+		}	
+		arr[n % 10]++;
+		
+		for(int i=9; i>=0; i--) {
+			if(arr[i] > 0) {
+				while(arr[i]>0) {
+					bw.write(Integer.toString(i));
+					arr[i]--;
+				}
+			}
+		}
+		bw.flush();
+
+	}
+}
