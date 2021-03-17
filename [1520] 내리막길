@@ -1,0 +1,57 @@
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+	static int[][] map;
+	static int[][] dp;
+
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+
+		int m = sc.nextInt();
+		int n = sc.nextInt();
+		map = new int[m][n];
+		dp = new int[m][n];
+
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				map[i][j] = sc.nextInt();
+				dp[i][j] = -1;
+			}
+		}
+
+
+		int result = dfs(0, 0);
+		System.out.println(result);
+
+	}
+
+	public static int dfs(int x, int y) {
+
+		dp[x][y] = 0;
+		
+		int[] dx = { 1, -1, 0, 0 };
+		int[] dy = { 0, 0, 1, -1 };
+
+		for (int i = 0; i < 4; i++) {
+			int ax = x + dx[i];
+			int ay = y + dy[i];
+
+			
+			if (ax < map.length && ax >= 0 && ay < map[0].length && ay >= 0) {
+				if (map[ax][ay] < map[x][y]) {
+					if (ax == map.length - 1 && ay == map[0].length - 1) {
+						dp[x][y]++;
+					}
+					if (dp[ax][ay] == -1) {
+						dp[x][y] += dfs(ax, ay);
+					} else {
+						dp[x][y] += dp[ax][ay];
+					}
+				}
+			}
+		}
+		return dp[x][y];
+	}
+}
