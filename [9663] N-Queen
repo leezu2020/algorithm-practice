@@ -1,0 +1,45 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+	static int n;
+	static int result = 0;
+	static int[] map;
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+
+		n = sc.nextInt();
+		map = new int[n + 1];
+		
+		for(int i=1; i<=n; i++) {
+			map[1] = i;
+			dfs(1);
+		}
+		System.out.println(result);
+	}
+	
+	public static void dfs(int cnt) {
+		
+		if(cnt == n) {
+			result++;
+		}
+		
+		for (int i = 1; i <= n; i++) {
+			if (check(i, cnt+1)) {
+				map[cnt+1] = i;
+				dfs(cnt+1);
+			}
+		}
+		
+	}
+	
+	public static boolean check(int x, int cnt) {
+		
+		for(int i=1; i<cnt; i++) {
+			if(x == map[i] || Math.abs(x - map[i]) == Math.abs(cnt - i)) {
+				return false;
+			}
+		}
+		return true;
+	}
+}
