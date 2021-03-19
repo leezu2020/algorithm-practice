@@ -1,0 +1,43 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+	static int n,m;
+	static int[] arr;
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		
+		HashMap <Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
+		int n = sc.nextInt();
+		
+		for(int i=0; i<n; i++) {
+			int x = sc.nextInt();
+			int y = sc.nextInt();
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			if(map.containsKey(x)) {
+				list = map.get(x);
+				list.add(y);
+				Collections.sort(list);
+			}else {
+				list.add(y);
+			}
+			map.put(x, list);
+		}
+		
+		for(int i=-100000; i<=100000; i++) {
+			if(map.containsKey(i)) {
+				for(int j=0; j<map.get(i).size(); j++) {
+					bw.write( i + " " + map.get(i).get(j) + "\n");
+				}
+			}
+		}
+		
+		bw.flush();
+	}
+}
