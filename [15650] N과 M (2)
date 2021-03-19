@@ -1,0 +1,50 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Scanner;
+
+public class Main {
+	static int n,m;
+	static boolean[] used;
+	static int[] arr;
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+
+		n = sc.nextInt();
+		m = sc.nextInt();
+		
+		used = new boolean[n + 1];
+		arr = new int[m];
+		dfs(0, 0);
+		bw.flush();
+	}
+	
+	public static void dfs(int a, int cnt) throws IOException {
+		if(cnt == m) {
+			for(int i=0; i<m; i++) {
+				bw.write(arr[i] + " ");
+			}
+			bw.write("\n");
+			
+		}else {
+			for(int i=a; i<=n; i++) {
+				if(!used[i] && i > a) {
+					arr[cnt] = i;
+					if(cnt>0) {
+						if(arr[cnt-1]<arr[cnt]) {
+
+							used[i] = true;
+							dfs(a + 1, cnt + 1);
+							used[i] = false;
+						}
+					} else {
+						used[i] = true;
+						dfs(a + 1, cnt + 1);
+						used[i] = false;
+					}
+				}
+			}
+		}
+	}
+}
