@@ -1,0 +1,57 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	
+	static ArrayList<Integer> list = new ArrayList<>();
+	public static void main(String[] args) throws Exception {
+		Scanner sc = new Scanner(System.in);
+		
+		String T = sc.nextLine();
+		String P = sc.nextLine();
+		
+		int[] Pi = new int[P.length()];
+		
+		// Pi 구하기
+		int s = 0;
+		// 인덱스 1부터 비교
+		for(int e=1; e<P.length(); e++) {
+			while(s>0 && P.charAt(s) != P.charAt(e)) {
+				s = Pi[s - 1];
+			}
+			if(P.charAt(s) == P.charAt(e)) {
+				Pi[e] = ++s;
+			}
+		}
+		
+		getResult(T, P, Pi);
+		
+		System.out.println(list.size());
+		for(int i=0; i<list.size(); i++) {
+			System.out.print(list.get(i) + " ");
+		}
+	}
+	
+	public static void getResult(String t, String p, int[] pi) {
+		// p의 위치
+		int j=0;
+		
+		for(int i=0; i<t.length(); i++) {
+			
+			// 같은 문자 찾을때까지
+			while(j>0 && t.charAt(i) != p.charAt(j)) {
+				j = pi[j - 1];
+			}
+			
+			if(t.charAt(i) == p.charAt(j)) {
+				// 문자열이 같다면
+				if(j == p.length() - 1) {
+					list.add(i - p.length() + 2);
+					j = pi[j];
+				} else {
+					j++;
+				}
+			}
+		}
+	}
+}
