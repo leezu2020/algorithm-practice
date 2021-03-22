@@ -1,0 +1,51 @@
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int n = sc.nextInt();
+		int[][] arr = new int[n][2];
+		
+		for(int i=0; i<n; i++) {
+			char a = sc.next().charAt(0); char b = sc.next().charAt(0); char c = sc.next().charAt(0);
+			arr[a - 'A'][0] = b - 'A';
+			arr[a - 'A'][1] = c - 'A';
+		}
+		
+		preorder(0, arr);
+		System.out.println();
+		inorder(0, arr);
+		System.out.println();
+		postorder(0, arr);
+	}
+
+	public static void preorder(int s, int[][] arr) {
+		System.out.print((char)(s + 'A'));
+		for(int i=0; i<2; i++) {
+			if(arr[s][i] != -19) {
+				preorder(arr[s][i], arr);
+			}
+		}
+	}
+	
+	public static void inorder(int s, int[][] arr) {
+		if(arr[s][0] != -19) {
+			inorder(arr[s][0], arr);
+		}
+		System.out.print((char)(s + 'A'));
+		if(arr[s][1] != -19) {
+			inorder(arr[s][1], arr);
+		}
+	}
+	
+	public static void postorder(int s, int[][] arr) {
+		for(int i=0; i<2; i++) {
+			if(arr[s][i] != -19) {
+				postorder(arr[s][i], arr);
+			}
+		}
+		System.out.print((char)(s + 'A'));
+	}
+}
+
