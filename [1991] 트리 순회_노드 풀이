@@ -1,0 +1,96 @@
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int n = sc.nextInt();
+		Tree tree = new Tree();
+		for(int i=0; i<n; i++) {
+			String data = sc.next(); String left = sc.next(); String right = sc.next();
+			tree.addNode(tree, data, left, right);
+		}
+		
+		tree.preorder(tree.root);
+		System.out.println();
+		tree.inorder(tree.root);
+		System.out.println();
+		tree.postorder(tree.root);
+	}
+}
+
+class Node{
+	String data;
+	Node left;
+	Node right;
+	
+	public Node(String data) {
+		this.data = data;
+	}
+}
+
+class Tree{
+	Node root;
+	
+	public Tree() {
+		
+	}
+	
+	public void addNode(Tree t, String data, String left, String right) {
+		if(t.root == null) {
+			Node node = new Node(data);
+			root = node;
+			if(left != ".")
+				root.left = new Node(left);
+			if(right != ".")
+				root.right = new Node(right);
+		} else {
+			searchNode(root, data, left, right);
+		}
+	}
+	
+	public void searchNode(Node node, String data, String left, String right) {
+		if(node == null) {
+			return ;
+		}
+		if(!node.data.equals(data)) {
+			searchNode(node.left, data, left, right);
+			searchNode(node.right, data, left, right);
+		} else if(node.data.equals(data)) {
+			if(left != ".")
+				node.left = new Node(left);
+			if(right != ".")
+				node.right = new Node(right);
+		}
+	}
+	
+	public void preorder(Node start) {
+		if(start != null && !start.data.equals(".")) {
+			System.out.print(start.data);
+			if(start.left != null && !start.left.data.equals("."))
+				preorder(start.left);
+			if(start.right != null && !start.right.data.equals("."))
+				preorder(start.right);
+		}
+	}
+	public void inorder(Node start) {
+		if(start != null && !start.data.equals(".")) {
+			if(start.left != null && !start.left.data.equals(".")) {
+				inorder(start.left);
+			}
+			System.out.print(start.data);
+			if(start.right != null && !start.right.data.equals("."))
+				inorder(start.right);
+		}
+	}
+	public void postorder(Node start) {
+		if(start != null && !start.data.equals(".")) {
+			if(start.left != null && !start.left.data.equals("."))
+				postorder(start.left);
+			if(start.right != null && !start.right.data.equals(".")) {
+				postorder(start.right);
+			}
+			System.out.print(start.data);
+		}
+	}
+}
