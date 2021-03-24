@@ -1,0 +1,56 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	public static ArrayList<Node>[] tree;
+	public static boolean[] visited;
+	public static int result = 0;
+	public static int resultNode;
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		
+		tree = new ArrayList[n + 1];
+		for(int i=0; i<n + 1; i++) {
+			tree[i] = new ArrayList<>();
+		}
+		
+		visited = new boolean[n + 1];
+		for(int i=0; i<n - 1; i++) {
+			int p = sc.nextInt();
+			int c = sc.nextInt();
+			int v = sc.nextInt();
+			
+			tree[p].add(new Node(c, v));
+			tree[c].add(new Node(p, v));
+		}
+		
+		dfs(1, 0);
+		visited = new boolean[n + 1];
+		dfs(resultNode, 0);
+		
+		System.out.println(result);
+	}
+	
+	public static void dfs(int now, int length) {
+		if(result < length) {
+			result = length;
+			resultNode = now;
+		}
+		visited[now] = true;
+		for(Node n : tree[now]) {
+			if(!visited[n.child])
+				dfs(n.child, length + n.val);
+		}
+	}
+}
+
+class Node {
+	int val;
+	int child;
+	public Node(int child, int val) {
+		this.child = child;
+		this.val = val;
+	}
+}
