@@ -1,0 +1,66 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		
+		int L = sc.nextInt();
+		int U = sc.nextInt();
+		
+		System.out.println(getSum(U) - getSum(L - 1));
+	}
+	
+	public static long getSum(int a) {
+		long sum = 0;
+		// 0~9까지 개수
+		long[] cnt = new long[10];
+		
+		int temp = a;
+		// 0: 1의 자리, 1: 10의 자리, 2: 100의 자리 ...
+		int[] digit = new int[10];
+		// 자리수 배열에 저장
+		int idx = 0;
+		while(temp != 0) {
+			digit[idx++] = temp%10;
+			temp /= 10;
+		}
+		
+		// 임시 저장
+		int aside = a;
+		// 일의 자리부터 시작
+		int s = 0;
+		while(a != 0) {
+			int n = a/10;
+			
+			// 일의 자리일 경우
+			if(s == 0) {
+				for(int i=1; i<= digit[s]; i++) {
+					cnt[i] += n + 1; 
+				}
+				for(int i=digit[s] + 1; i<10; i++) {
+					cnt[i] += n;
+				}
+			} else {
+				for(int i=1; i<10; i++) {
+					if(i < digit[s]) {
+						cnt[i] += (n + 1) * Math.pow(10, s);
+					} else if(i == digit[s]) {
+						cnt[i] += n * Math.pow(10, s) + (aside % Math.pow(10, s) + 1);
+					} else {
+						cnt[i] += n * Math.pow(10, s);
+					}
+				}
+			}
+			s++;
+			a /= 10;
+		}
+		
+		for(int i=1; i<10; i++) {
+			sum += cnt[i] * i;
+		}
+		
+		return sum;
+	}
+}
