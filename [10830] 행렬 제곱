@@ -1,0 +1,67 @@
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) throws Exception {
+		Scanner sc = new Scanner(System.in);
+		
+		int n = sc.nextInt();
+		long b = sc.nextLong();
+		
+		int[][] arr = new int[n][n];
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<n; j++) {
+				arr[i][j] = sc.nextInt();
+			}
+		}
+		
+		int[][] newArr = getArray(arr, b);
+		
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<n; j++) {
+				System.out.print(newArr[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+	
+	public static int[][] getArray(int[][] arr, long b){
+		int size = arr.length;
+		int[][] newArray = new int[size][size];
+		
+		if(b % 2 == 0) {
+			newArray = multipleArray(arr, arr);
+			return getArray(newArray, b/2);
+			
+		} else {
+			// b == 1
+			if(b == 1) {
+				for(int i=0; i<size; i++) {
+					for(int j=0; j<size; j++) {
+						newArray[i][j] = arr[i][j] % 1000;
+					}
+				}
+				return newArray;
+			} else {
+				// b가 1보다 큰 홀수
+				return multipleArray(getArray(multipleArray(arr, arr), (b-1) / 2), arr);
+			}
+		}
+	}
+	
+	public static int[][] multipleArray(int[][] a, int[][] b){
+		int size = a.length;
+		
+		int[][] result = new int[size][size];
+		
+		for(int i=0; i<size; i++) {
+			for(int j=0; j<size; j++) {
+				for(int k=0; k<size; k++) {
+					result[i][j] += a[i][k] * b[k][j];
+				}
+				result[i][j] %= 1000;
+			}
+		}
+		
+		return result;
+	}
+}
