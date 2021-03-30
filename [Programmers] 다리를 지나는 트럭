@@ -1,0 +1,48 @@
+import java.util.*;
+class Solution {
+    public int solution(int bridge_length, int weight, int[] truck_weights) {
+        int[] bridge = new int[bridge_length];
+		Queue<Integer> q = new LinkedList<>();
+		for(int i=0; i<truck_weights.length; i++) {
+			q.add(truck_weights[i]);
+		}
+		
+		// 초기 세팅
+		int time = 1;
+		bridge[0] = q.poll();
+		
+		while(!q.isEmpty()) {
+			time++;
+			bridge = move(bridge);
+			if(getSumWeight(bridge) + q.peek() <= weight) {
+				bridge[0] = q.poll();
+			}
+		}
+		// 마지막 남은 트럭 끝까지 이동
+		while(getSumWeight(bridge) > 0) {
+			time++;
+			bridge = move(bridge);
+		}
+        return time;
+    }
+    	// 다리에 올라간 트럭 무게 합
+	public static int getSumWeight(int[] bridge) {
+		int sum = 0;
+		for(int i=0; i<bridge.length; i++) {
+			sum += bridge[i];
+		}
+		
+		return sum;
+	}
+	
+	// 1초 뒤의 움직임
+	public static int[] move(int[] bridge) {
+		int[] arr = new int[bridge.length];
+		
+		for(int i=0; i<bridge.length - 1; i++) {
+			arr[i + 1] = bridge[i];
+		}
+		
+		return arr;
+	}
+}
