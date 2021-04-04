@@ -1,0 +1,31 @@
+import java.util.*;
+class Solution {
+    public int solution(int[][] board, int[] moves) {
+        int answer = 0;
+        Stack<Integer> s = new Stack<>();
+        
+        
+        for(int i=0; i<moves.length; i++){
+            int now = moves[i];
+            int idx = 0;
+            while(idx < board.length){
+                int temp = board[idx][now - 1];
+                if(temp > 0){
+                    if(!s.isEmpty() && s.peek() == temp){
+                        answer += 2;
+                        s.pop();
+                        board[idx++][now-1] = 0;
+                        break;
+                    } else{
+                        s.add(temp);
+                        board[idx++][now-1] = 0;
+                        break;
+                    }
+                } else {
+                    idx++;
+                }
+            }
+        }
+        return answer;
+    }
+}
