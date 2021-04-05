@@ -1,0 +1,20 @@
+class Solution {
+    public long solution(int w, int h) {
+        long answer = (long)w * h;
+        long gcf = 0;
+        if(w>h){
+            gcf = getGcf(w,h);
+        } else {
+            gcf = getGcf(h, w);
+        }
+        answer -= gcf * ((h/gcf) + (w/gcf) - 1);
+        return answer;
+    }
+    public long getGcf(int a, int b){
+        if(a%b == 0){
+            return b;
+        } else {
+            return getGcf(b, a%b);
+        }
+    }
+}
