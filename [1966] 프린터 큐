@@ -1,0 +1,62 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		int t = sc.nextInt();
+		
+		for(int i=0; i<t; i++) {
+			int n = sc.nextInt();
+			int m = sc.nextInt();
+			
+			int result = 0;
+			LinkedList<pos> q = new LinkedList<>();
+			for(int j=0; j<n; j++) {
+				int temp = sc.nextInt();
+				q.offer(new pos(j, temp));
+			}
+			
+			
+			while(!q.isEmpty()) {
+				pos now = q.poll();
+				boolean isMax = true;
+				for(int j=0; j<q.size(); j++) {
+					if(now.val < q.get(j).val) {
+						q.offer(now);
+						for(int k=0; k<j; k++) {
+							q.offer(q.poll());
+						}
+						isMax = false;
+						break;
+					}
+				}
+				if(!isMax) {
+					continue;
+				}
+				
+				result++;
+				if(now.idx == m){
+					break;
+				}
+			}
+			
+			bw.write(result + "\n");
+			
+		}
+		bw.flush();
+	}
+}
+class pos{
+	int idx;
+	int val;
+	public pos(int idx, int val) {
+		this.idx = idx;
+		this.val = val;
+	}
+}
