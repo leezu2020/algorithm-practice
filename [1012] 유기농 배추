@@ -1,0 +1,61 @@
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main {
+	public static final int[] dx = {1, -1, 0, 0};
+	public static final int[] dy = {0, 0, 1, -1};
+	public static boolean[][] visited;
+	
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		
+		for(int i=0; i<t; i++) {
+			int cnt=0;
+			
+			int m = sc.nextInt();
+			int n = sc.nextInt();
+			int k = sc.nextInt();
+			int[][] map = new int[m][n];
+			for(int j=0; j<k; j++) {
+				int x = sc.nextInt();
+				int y = sc.nextInt();
+				map[x][y] = 1;
+			}
+			visited = new boolean[m][n];
+			for(int x=0; x<m; x++) {
+				for(int y=0; y<n; y++) {
+					if(map[x][y] == 1 && !visited[x][y]) {
+						dfs(new pos(x,y), map, visited);
+						cnt++;
+					}
+				}
+			}
+			System.out.println(cnt);
+		}
+	}
+	public static void dfs(pos p, int[][] map, boolean[][] visited) {
+		visited[p.x][p.y] = true;
+		for(int i=0; i<4; i++) {
+			int ax = p.x + dx[i];
+			int ay = p.y + dy[i];
+			if(ax<0 || ay<0 || ax>=map.length || ay>=map[0].length)
+				continue;
+			if(map[ax][ay] == 1 && !visited[ax][ay]) {
+				dfs(new pos(ax,ay), map, visited);
+			}
+		}
+	}
+}
+
+class pos{
+	int x;
+	int y;
+	
+	public pos(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+}
