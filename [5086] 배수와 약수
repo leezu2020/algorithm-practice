@@ -1,0 +1,39 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		
+		int a = sc.nextInt();
+		int b = sc.nextInt();
+		
+		while(a != 0 && b != 0) {
+			
+			switch(getR(a,b)) {
+			case 0:
+				System.out.println("factor");
+				break;
+			case 1:
+				System.out.println("multiple");
+				break;
+			case 2:
+				System.out.println("neither");
+				break;
+			}
+			
+			a = sc.nextInt();
+			b = sc.nextInt();
+		}
+	}
+	
+	public static int getR(int a, int b) {
+		if(a%b == 0) {
+			return 1;
+		} else if(b%a == 0) {
+			return 0;
+		} else {
+			return 2;
+		}
+	}
+}
