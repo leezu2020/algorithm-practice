@@ -1,0 +1,32 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		
+		int n = sc.nextInt();
+		long k = sc.nextLong();
+		
+		long s = 1;
+		long e = k;
+		long result = 0;
+		
+		while(s<=e) {
+			long mid = (s + e)/2;
+			long cnt = 0;
+			
+			for(int i=1; i<=n; i++)
+				cnt += Math.min(mid/i, n);
+			
+			if(cnt < k) {
+				s = mid + 1;
+			} else {
+				result = mid;
+				e = mid - 1;
+			}
+		}
+		
+		System.out.println(result);
+	}
+}
