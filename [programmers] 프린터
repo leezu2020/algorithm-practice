@@ -1,0 +1,45 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] priorities, int location) {
+        int answer = 1;
+        Queue<pos> q = new LinkedList<>();
+        
+        for(int i=0; i<priorities.length; i++){
+            if(i==location){
+                q.offer(new pos(priorities[i],1));
+            } else {
+                q.offer(new pos(priorities[i],0));
+            }
+        }
+        while(!q.isEmpty()){
+            boolean isMax = true;
+            pos now = q.poll();
+            for(int i=0; i<q.size(); i++){
+                pos temp = q.poll();
+                q.offer(temp);
+                if(now.x < temp.x){
+                    isMax = false;
+                }
+            }
+            if(!isMax){
+                q.offer(now);
+            } else {
+                if(now.idx == 1){
+                    break;
+                } else{
+                    answer++;
+                }
+            }
+        }
+        
+        
+        return answer;
+    }
+}
+class pos{
+    int x, idx;
+    public pos(int x, int idx){
+        this.x = x;
+        this.idx = idx;
+    }
+}
