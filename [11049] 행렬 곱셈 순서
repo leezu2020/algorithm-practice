@@ -1,0 +1,31 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		Scanner sc = new Scanner(System.in);
+		
+		int n = sc.nextInt();
+		int[][] arr = new int[n+1][2];
+		int[][] dp = new int[n+1][n+1];
+		
+		for(int i=1; i<=n; i++) {
+			arr[i][0] = sc.nextInt();
+			arr[i][1] = sc.nextInt();
+		}
+		
+		for(int i=1; i<n; i++)
+			dp[i][i+1] = arr[i][0] * arr[i][1] * arr[i+1][1];
+		
+		for(int k=2; k<=n; k++) {
+			for(int i=1; i+k<=n; i++) {
+				dp[i][i+k] = Integer.MAX_VALUE;
+				for(int j=i; j<i+k; j++) {
+					dp[i][i+k] = Math.min(dp[i][j] + dp[j+1][i+k] + arr[i][0] * arr[j][1] * arr[i+k][1], dp[i][i+k]);
+				}
+			}
+		}
+		
+		System.out.println(dp[1][n]);
+	}
+}
